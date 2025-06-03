@@ -21,11 +21,9 @@ Environment (if known):
 
 Browser: Safari
 
-OS: (not specified)
+OS: macOS Ventura
 
-Device type: (not specified)
-
-App Version: (not specified)
+App Version: v2.3.1
 
 Severity or Impact:
 High – Users are unable to log out in Safari, which is a security and usability concern.

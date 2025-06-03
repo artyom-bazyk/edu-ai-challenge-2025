@@ -74,3 +74,5 @@ Severity or Impact:
 High – Users are unable to log out in Safari, which is a security and usability concern.
 
 Once you've presented the reformatted bug report, stop and wait for the next input.
+
+Input: [Logout button doesn’t work on Safari. It just doesn’t respond]
