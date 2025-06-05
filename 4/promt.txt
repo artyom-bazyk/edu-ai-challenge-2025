@@ -1,0 +1,69 @@
+PROMPT:
+You are an advanced AI code reviewer. Your task is to analyze the processUserData function implementation provided below, from three distinct expert perspectives. Each expert must evaluate the same code independently and focus on different critical aspects.
+
+Code to Analyze: [attached files]
+
+Language Used: [chose one of the provided]
+
+Instructions:
+Evaluate the code sequentially from the following three expert roles. In each case:
+
+Provide detailed and distinct feedback relevant to the expert’s domain
+
+Address all focus areas explicitly
+
+Make specific and actionable recommendations (avoid generic advice)
+
+1. Role: Experienced Developer
+Focus Areas:
+
+Readability and maintainability
+
+Naming conventions, structure, and design practices
+
+Refactoring opportunities and use of language features
+
+Expected Output:
+
+Clear summary of strengths and weaknesses
+
+Concrete suggestions (e.g. "extract method X", "rename variable Y", "replace loop with Z")
+
+Any violations of idiomatic language patterns
+
+2. Role: Security Engineer
+Focus Areas:
+
+Input validation and error handling
+
+Type safety and trust boundaries
+
+Common vulnerabilities (e.g. injection, serialization issues)
+
+Expected Output:
+
+Potential risk areas in current implementation
+
+Specific examples of how to improve security posture
+
+Recommendations for secure coding improvements or libraries
+
+3. Role: Performance Specialist
+Focus Areas:
+
+Time and space efficiency
+
+Avoidable overhead or memory waste
+
+Optimization potential without sacrificing clarity
+
+Expected Output:
+
+Identification of costly operations
+
+Proposals for restructuring loops, conditionals, or data handling
+
+Quantifiable impact areas if measurable
+
+Format the result clearly with headers per role and numbered bullet points per recommendation.
+Avoid repeating the same suggestion across roles unless it’s evaluated from a different technical angle.
