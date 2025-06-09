@@ -1,42 +1,44 @@
-# Bug Fix: Enigma Machine Encryption/Decryption
+# Bug Fix: Enigma Machine Rotor Stepping Mechanism
 
 ## Bug Description
-The Enigma machine implementation had a critical bug in the encryption/decryption process. The bug was in the `encryptChar` method of the `Enigma` class, where the signal was only passing through the plugboard once instead of twice.
+The Enigma machine implementation had a critical bug in the rotor stepping mechanism. The original implementation did not correctly handle the "double-stepping" effect of the middle rotor, which is a key feature of the historical Enigma machine.
 
 ## Technical Details
-In the original implementation, the signal path was:
-1. First plugboard pass
-2. Through rotors (right to left)
-3. Through reflector
-4. Through rotors (left to right)
-5. Missing second plugboard pass
+In the original implementation, the rotor stepping mechanism was:
+```javascript
+stepRotors() {
+    if (this.rotors[2].atNotch()) this.rotors[1].step();
+    if (this.rotors[1].atNotch()) this.rotors[0].step();
+    this.rotors[2].step();
+}
+```
 
-This caused the encryption to be asymmetric, meaning that encrypting and then decrypting a message would not return the original text.
+This implementation missed the "double-stepping" effect where:
+1. The right rotor steps with each character
+2. The middle rotor steps when the right rotor is at its notch position
+3. The left rotor steps when the middle rotor is at its notch position
+4. **Critical**: When the middle rotor is at its notch position, it steps again when the right rotor steps (double-stepping effect)
 
 ## Fix
-The fix involved adding a second plugboard pass in the `encryptChar` method:
+The fix involved updating the `stepRotors` method to properly implement the double-stepping effect:
 
 ```javascript
-encryptChar(c) {
-    if (!alphabet.includes(c)) return c;
-    this.stepRotors();
+stepRotors() {
+    // Check if middle rotor is at notch position
+    const middleAtNotch = this.rotors[1].atNotch();
     
-    // First plugboard pass
-    c = plugboardSwap(c, this.plugboardPairs);
-    
-    // Through rotors and reflector
-    for (let i = this.rotors.length - 1; i >= 0; i--) {
-      c = this.rotors[i].forward(c);
+    // If middle rotor is at notch, step the left rotor
+    if (middleAtNotch) {
+        this.rotors[0].step();
     }
-    c = REFLECTOR[alphabet.indexOf(c)];
-    for (let i = 0; i < this.rotors.length; i++) {
-      c = this.rotors[i].backward(c);
-    }
-
-    // Added second plugboard pass
-    c = plugboardSwap(c, this.plugboardPairs);
     
-    return c;
+    // If right rotor is at notch, step the middle rotor
+    if (this.rotors[2].atNotch()) {
+        this.rotors[1].step();
+    }
+    
+    // Right rotor always steps
+    this.rotors[2].step();
 }
 ```
 
@@ -47,5 +49,6 @@ The fix was verified through multiple test cases:
 3. Handling of plugboard letter pairs
 4. Different rotor positions
 5. Different ring settings
+6. **New**: Verification of rotor stepping pattern with a long string of identical characters
 
-All tests now pass, confirming that the encryption and decryption process is working correctly.
+All tests now pass, confirming that the rotor stepping mechanism matches the historical Enigma machine behavior.

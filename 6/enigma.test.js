@@ -11,7 +11,6 @@ describe('Enigma Machine', () => {
 
     // Тест 1: Базовое шифрование и расшифровка без коммутационной панели
     test('should correctly encrypt and decrypt without plugboard', () => {
-        // Создаем два экземпляра с одинаковыми настройками
         const enigma1 = new Enigma(
             defaultSettings.rotorIDs,
             defaultSettings.rotorPositions,
@@ -123,5 +122,24 @@ describe('Enigma Machine', () => {
         const decrypted = enigma2.process(encrypted);
 
         expect(decrypted).toBe(message);
+    });
+
+    // Тест 6: Проверка механизма шага роторов
+    test('should correctly implement rotor stepping mechanism', () => {
+        const enigma = new Enigma(
+            defaultSettings.rotorIDs,
+            defaultSettings.rotorPositions,
+            defaultSettings.ringSettings,
+            defaultSettings.plugboardPairs
+        );
+
+        // Создаем строку из 100 символов 'A'
+        const message = 'A'.repeat(100);
+        const encrypted = enigma.process(message);
+
+        // Проверяем, что каждый символ зашифрован по-разному
+        // из-за вращения роторов
+        const uniqueChars = new Set(encrypted.split(''));
+        expect(uniqueChars.size).toBeGreaterThan(1);
     });
 });

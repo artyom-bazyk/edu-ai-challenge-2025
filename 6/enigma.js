@@ -57,8 +57,20 @@ class Enigma {
     this.plugboardPairs = plugboardPairs;
   }
   stepRotors() {
-    if (this.rotors[2].atNotch()) this.rotors[1].step();
-    if (this.rotors[1].atNotch()) this.rotors[0].step();
+    // Check if middle rotor is at notch position
+    const middleAtNotch = this.rotors[1].atNotch();
+    
+    // If middle rotor is at notch, step the left rotor
+    if (middleAtNotch) {
+        this.rotors[0].step();
+    }
+    
+    // If right rotor is at notch, step the middle rotor
+    if (this.rotors[2].atNotch()) {
+        this.rotors[1].step();
+    }
+    
+    // Right rotor always steps
     this.rotors[2].step();
   }
   encryptChar(c) {
