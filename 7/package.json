@@ -1,0 +1,22 @@
+{
+  "name": "sea-battle",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A modern implementation of the Sea Battle game",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage --coverageReporters='text' --coverageReporters='text-summary' > test_report.txt"
+  },
+  "keywords": ["game", "battleship", "sea-battle"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.24.0",
+    "@babel/preset-env": "^7.24.0",
+    "@jest/globals": "^29.7.0",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0"
+  }
+
+} 
