@@ -104,34 +104,46 @@ async function main() {
 }
 
 function displayAnalysis(analysis, input) {
-    // Split into sections and display with proper markdown formatting
+    // Split into sections and remove duplicates
     const sections = analysis.split('\n\n');
+    const uniqueSections = new Set();
+    const processedSections = [];
+
     sections.forEach(section => {
-        if (section.trim()) {
-            // Skip the summary line that starts with "This analysis provides"
-            if (section.startsWith('This analysis provides')) {
-                return;
-            }
-            
-            if (section.startsWith('# ')) {
-                console.log(chalk.bold.blue(section));
-            } else if (section.startsWith('## ')) {
-                console.log('\n' + chalk.bold.green(section));
-            } else if (section.startsWith('- ')) {
-                // Format list items
-                const items = section.split('\n');
-                items.forEach(item => {
-                    if (item.trim()) {
-                        console.log(chalk.yellow('• ') + item.substring(2));
-                    }
-                });
-            } else if (section.startsWith('**')) {
-                // Format bold text
-                console.log(chalk.bold(section));
-            } else if (!section.startsWith('---') && !section.startsWith('===')) {
-                // Skip decorative elements but show other content
-                console.log(section);
-            }
+        const trimmedSection = section.trim();
+        // Skip summary/conclusion sections
+        if (trimmedSection && 
+            !uniqueSections.has(trimmedSection) && 
+            !trimmedSection.startsWith('This analysis') &&
+            !trimmedSection.includes('This analysis')) {
+            uniqueSections.add(trimmedSection);
+            processedSections.push(trimmedSection);
+        }
+    });
+
+    // Display sections with proper formatting
+    processedSections.forEach(section => {
+        if (section.startsWith('# ')) {
+            console.log(chalk.bold.blue(section));
+        } else if (section.startsWith('## ')) {
+            console.log('\n' + chalk.bold.green(section));
+        } else if (section.startsWith('- ')) {
+            // Format list items and remove duplicates
+            const items = section.split('\n');
+            const uniqueItems = new Set();
+            items.forEach(item => {
+                const trimmedItem = item.trim();
+                if (trimmedItem && !uniqueItems.has(trimmedItem)) {
+                    uniqueItems.add(trimmedItem);
+                    console.log(chalk.yellow('• ') + trimmedItem.substring(2));
+                }
+            });
+        } else if (section.startsWith('**')) {
+            // Format bold text
+            console.log(chalk.bold(section));
+        } else if (!section.startsWith('---') && !section.startsWith('===')) {
+            // Skip decorative elements but show other content
+            console.log(section);
         }
     });
 }
