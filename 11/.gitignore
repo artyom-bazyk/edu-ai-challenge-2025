@@ -11,10 +11,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Output files
+# Output files (generated timestamped files)
 output/
-*.md
-*.json
 
 # OS generated files
 .DS_Store
